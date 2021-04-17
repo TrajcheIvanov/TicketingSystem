@@ -1,0 +1,16 @@
+﻿@*@model List<TicketingSystem.ViewModels.TicketOverviewModel>*@
+
+
+
+    @if (User.HasClaim("IsAdmin", "True"))
+    {
+        <div class="row justify-content-center m-4">
+            <a class="btn btn-success" href="/Ticket/Create">Create new Ticket</a>
+
+        </div>
+    }
+    else
+    {
+        <h1>The user is some customer</h1>
+    }
+

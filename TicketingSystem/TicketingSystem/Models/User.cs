@@ -18,5 +18,7 @@ namespace TicketingSystem.Models
         public DateTime DateCreated { get; set; }
         [Required]
         public bool IsAdmin { get; set; }
+
+        public List<Ticket> CreatedTickets { get; set; }
     }
 }

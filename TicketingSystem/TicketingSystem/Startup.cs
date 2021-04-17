@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketingSystem.Repository;
+using TicketingSystem.Repository.Interfaces;
+using TicketingSystem.Services;
+using TicketingSystem.Services.Interfaces;
 
 namespace TicketingSystem
 {
@@ -29,8 +33,32 @@ namespace TicketingSystem
                 x=> x.UseSqlServer(Configuration.GetConnectionString("TicketingSystem"))
                 );
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                    options =>
+                    {
+                        options.ExpireTimeSpan = TimeSpan.FromDays(int.Parse(Configuration["CookieExpirationPeriod"]));
+                        options.LoginPath = "/Auth/SignIn";
+                        options.AccessDeniedPath = "/Auth/AccessDenied";
+                    }
+                );
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAdmin", policy =>
+                {
+                    policy.RequireClaim("IsAdmin", "True");
+                });
+            });
 
             services.AddControllersWithViews();
+
+            // register services
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<ITicketsService, TicketsService>();
+
+            //register repositories
+            services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<ITicketsRepository, TicketsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,13 +79,15 @@ namespace TicketingSystem
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Auth}/{action=SignIn}/{id?}");
             });
         }
     }
