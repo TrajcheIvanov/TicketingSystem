@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210418165748_addedCommentTableAndRelations.cs" />
+    <Compile Remove="Migrations\20210418165748_addedCommentTableAndRelations.Designer.cs" />
+    <Compile Remove="Migrations\20210418170307_comments.cs" />
+    <Compile Remove="Migrations\20210418170307_comments.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.13" />

@@ -56,10 +56,12 @@ namespace TicketingSystem
             // register services
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ITicketsService, TicketsService>();
+            services.AddTransient<ICommentsService, CommentsService>();
 
             //register repositories
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<ITicketsRepository, TicketsRepository>();
+            services.AddTransient<ICommentsRepository, CommentsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

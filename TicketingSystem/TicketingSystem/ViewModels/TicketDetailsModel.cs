@@ -16,5 +16,7 @@ namespace TicketingSystem.ViewModels
 
         public TicketStatusType TicketStatus { get; set; }
 
+        public List<TicketCommentModel> Comments { get; set; }
+
     }
 }

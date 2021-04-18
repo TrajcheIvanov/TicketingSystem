@@ -20,5 +20,7 @@ namespace TicketingSystem.Models
         public bool IsAdmin { get; set; }
 
         public List<Ticket> CreatedTickets { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }

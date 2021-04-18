@@ -25,13 +25,27 @@ namespace TicketingSystem.Mappings
 
         public static TicketDetailsModel ToDetailsModel(this Ticket ticket)
         {
-            return new TicketDetailsModel() 
+            return new TicketDetailsModel()
             {
                 Id = ticket.Id,
                 Description = ticket.Description,
                 DateCreated = ticket.DateCreated,
                 TicketStatus = ticket.TicketStatus,
                 Title = ticket.Title,
+                Comments = ticket.Comments.Select(x => x.ToCommentModel()).ToList()
+            };
+        }
+
+        public static TicketCommentModel ToCommentModel(this Comment comment)
+        {
+            return new TicketCommentModel
+            {
+                Id = comment.Id,
+                Message = comment.Message,
+                DateCreated = comment.DateCreated,
+                Username = comment.User.Username,
+                IsAdmin = comment.User.IsAdmin,
+              
             };
         }
 

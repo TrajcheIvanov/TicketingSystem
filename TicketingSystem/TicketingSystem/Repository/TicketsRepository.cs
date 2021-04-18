@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +41,9 @@ namespace TicketingSystem.Repository
 
         public Ticket GetById(int id)
         {
-            return _dbContext.Tickets.Find(id);
+            //return _dbContext.Tickets.Find(id);
+
+            return _dbContext.Tickets.Include(x => x.Comments).ThenInclude(x => x.User).FirstOrDefault(x => x.Id == id);
         }
 
         public List<Ticket> GetTicketsWithAdminFilter(string adminFilterOption)

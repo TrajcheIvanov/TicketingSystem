@@ -2,6 +2,7 @@
 
 
 <div class="row">
+
     <div class=" col-10 offset-1" style="text-align:center">
 
         <div class="card" style="width: 80vw;">
@@ -10,33 +11,67 @@
                 <li class="list-group-item"> <b> Status:</b> @Model.TicketStatus</li>
                 <li class="list-group-item"> <b> Description:</b> @Model.Description</li>
                 <li class="list-group-item"><p> <b>Date created:</b> @Model.DateCreated</p></li>
-                
-                    <li class="list-group-item">
 
-                        @if (!User.HasClaim("IsAdmin", "True") && @Model.TicketStatus != TicketStatusType.Done || (User.HasClaim("IsAdmin", "True")))
-                         {
-                            <b>Change status to:</b> 
-                         }
+                <li class="list-group-item">
+
+                    @if (!User.HasClaim("IsAdmin", "True") && @Model.TicketStatus != TicketStatusType.Done || (User.HasClaim("IsAdmin", "True")))
+                    {
+                        <b>Change status to:</b>
+                    }
 
 
-                        @if (User.HasClaim("IsAdmin", "True") && @Model.TicketStatus != TicketStatusType.Processing)
-                         {
-                            <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="processing" method="post" class="m-2">
-                                <input type="text" name="ticketId" value="@Model.Id"  hidden/>
-                                <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Processing</button>
-                            </form>
-                         }
+                    @if (User.HasClaim("IsAdmin", "True") && @Model.TicketStatus != TicketStatusType.Processing)
+                    {
+                        <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="processing" method="post" class="m-2">
+                            <input type="text" name="ticketId" value="@Model.Id" hidden />
+                            <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Processing</button>
+                        </form>
+                    }
 
-                        @if (@Model.TicketStatus != TicketStatusType.Done)
-                         {
-                            <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="done" method="post" class="m-2">
-                                 <input type="text" name="ticketId" value="@Model.Id" hidden />
-                                 <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure?')">Done</button>
-                            </form>
-                         } 
-                    </li>
+                    @if (@Model.TicketStatus != TicketStatusType.Done)
+                    {
+                        <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="done" method="post" class="m-2">
+                            <input type="text" name="ticketId" value="@Model.Id" hidden />
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure?')">Done</button>
+                        </form>
+                    }
+                </li>
             </ul>
         </div>
+
+
+
+       
     </div>
+
+    <div class="card col-10 offset-1" style="width: 60vw; margin-top:1rem">
+        @if (User.Identity.IsAuthenticated)
+         {
+            <form asp-controller="Comments" asp-action="Add" method="post">
+                <input type="text" name="ticketId" value="@Model.Id" hidden />
+                <div class="form-group">
+                    <textarea type="text" id="comment" name="comment" class="form-control" cols="20" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+         }
+
+        @foreach (var comment in Model.Comments.OrderByDescending(x => x.DateCreated))
+         {
+            <div class="comment m-2" style="border:1px solid black; border-radius: 0.5rem">
+                <p>@comment.Message</p>
+                @if (comment.IsAdmin)
+                {
+                    <p> <b>- A D M I N -:</b> @comment.Username</p>
+                }
+                else
+                {
+                    <p> <b>User:</b> @comment.Username</p>
+                }
+                <p> <b>Date created:</b> @comment.DateCreated</p>
+            </div>
+         }
+    </div>
+
 </div>
 

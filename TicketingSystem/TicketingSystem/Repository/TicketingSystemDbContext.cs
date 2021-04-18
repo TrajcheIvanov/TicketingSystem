@@ -12,5 +12,7 @@ namespace TicketingSystem.Repository
 
         public DbSet<Ticket> Tickets { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+
     }
 }
