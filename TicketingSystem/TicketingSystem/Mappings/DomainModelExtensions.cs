@@ -23,5 +23,17 @@ namespace TicketingSystem.Mappings
             };
         }
 
+        public static TicketDetailsModel ToDetailsModel(this Ticket ticket)
+        {
+            return new TicketDetailsModel() 
+            {
+                Id = ticket.Id,
+                Description = ticket.Description,
+                DateCreated = ticket.DateCreated,
+                TicketStatus = ticket.TicketStatus,
+                Title = ticket.Title,
+            };
+        }
+
     }
 }

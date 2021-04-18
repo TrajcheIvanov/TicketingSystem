@@ -11,5 +11,8 @@ namespace TicketingSystem.Repository.Interfaces
         List<Ticket> GetAllForCurrentUser(int userId);
 
         List<Ticket> GetAll();
+        void Add(Ticket domainModel);
+        Ticket GetById(int id);
+        void Delete(Ticket ticket);
     }
 }

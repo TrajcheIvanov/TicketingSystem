@@ -15,6 +15,18 @@ namespace TicketingSystem.Repository
             _dbContext = dbContext;
         }
 
+        public void Add(Ticket domainModel)
+        {
+            _dbContext.Tickets.Add(domainModel);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(Ticket ticket)
+        {
+            _dbContext.Tickets.Remove(ticket);
+            _dbContext.SaveChanges();
+        }
+
         public List<Ticket> GetAll()
         {
             return _dbContext.Tickets.ToList();
@@ -24,6 +36,11 @@ namespace TicketingSystem.Repository
         public List<Ticket> GetAllForCurrentUser(int userId)
         {
             return _dbContext.Tickets.Where(x => x.UserId == userId).ToList();
+        }
+
+        public Ticket GetById(int id)
+        {
+            return _dbContext.Tickets.Find(id);
         }
     }
 }

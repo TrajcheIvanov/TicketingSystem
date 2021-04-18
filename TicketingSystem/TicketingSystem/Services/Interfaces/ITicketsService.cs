@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketingSystem.Models;
+using TicketingSystem.Services.DtoModels;
 
 namespace TicketingSystem.Services.Interfaces
 {
@@ -11,5 +12,8 @@ namespace TicketingSystem.Services.Interfaces
         List<Ticket> GetAllForCurrentUser(int userId);
 
         List<Ticket> GetAll();
+        StatusModel CreateTicket(Ticket domainModel);
+        StatusModel Delete(int id);
+        Ticket GetById(int id);
     }
 }

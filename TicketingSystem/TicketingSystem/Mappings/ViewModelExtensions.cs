@@ -16,7 +16,15 @@ namespace TicketingSystem.Mappings
                 Password = user.Password,
                 Email = user.Email,
                 Username = user.Username
+            };
+        }
 
+        public static Ticket ToModel (this TicketCreateModel ticket)
+        {
+            return new Ticket()
+            {
+                Title = ticket.Title,
+                Description = ticket.Description,
             };
         }
     }

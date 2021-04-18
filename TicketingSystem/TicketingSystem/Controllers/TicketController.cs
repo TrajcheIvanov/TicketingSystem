@@ -18,12 +18,9 @@ namespace TicketingSystem.Controllers
             _ticketsService = ticketsService;
         }
 
-        
+        [Authorize]
         public IActionResult Overview()
         {
-
-            
-
 
             if (bool.Parse(User.FindFirst("IsAdmin").Value))
             {
@@ -49,7 +46,50 @@ namespace TicketingSystem.Controllers
         [HttpPost]
         public IActionResult Create(TicketCreateModel ticketCreateModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var domainModel = ticketCreateModel.ToModel();
+                domainModel.UserId = int.Parse(User.FindFirst("Id").Value);
+                var response = _ticketsService.CreateTicket(domainModel);
+
+                return RedirectToAction("Overview", "Ticket");
+            }
+            else
+            {
+                return View(ticketCreateModel);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var ticket = _ticketsService.GetById(id);
+            var ticketDetailsModel = ticket.ToDetailsModel();
+
+            return View(ticketDetailsModel);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeStatus(string ticketStatus, int ticketId)
+        {
+            if (ticketStatus == "processing")
+            {
+
+                return RedirectToAction("Details", "Ticket", new { id = ticketId } );
+            }
+            else
+            {
+                return RedirectToAction("Details", "Ticket" , new { id = ticketId });
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var response = _ticketsService.Delete(id);
+
+            return RedirectToAction("Overview", "Ticket");
         }
     }
 }

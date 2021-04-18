@@ -70,7 +70,7 @@ namespace TicketingSystem
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Auth/AccessDenied");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -87,7 +87,7 @@ namespace TicketingSystem
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Auth}/{action=SignIn}/{id?}");
+                    pattern: "{controller=Ticket}/{action=Overview}/{id?}");
             });
         }
     }
