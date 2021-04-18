@@ -11,7 +11,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <h3 class="justify-content-start">Ticketing System</h3>
+                <a href="/Ticket/Overview" style="text-decoration:none; color:black"><h3 class="justify-content-start">Ticketing System</h3></a>
+                
                 @if (User.Identity.IsAuthenticated)
                  {
                     <span>
@@ -33,7 +34,7 @@
 
     <footer class="border-top footer text-muted" style="text-align:center">
         <div class="container">
-            &copy; 2021 - TicketingSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - TicketingSystem -
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

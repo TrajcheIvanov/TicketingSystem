@@ -17,6 +17,34 @@ namespace TicketingSystem.Services
             _ticketsRepository = ticketsRepository;
         }
 
+        public StatusModel ChangeStatus(string ticketStatus, int ticketId)
+        {
+            var response = new StatusModel();
+            var ticketForUpdate = _ticketsRepository.GetById(ticketId);
+
+            if (ticketForUpdate == null)
+            {
+                response.IsSuccessful = false;
+                response.Message = $"The Ticket with id {ticketId} was not found";
+            }
+            else
+            {
+                if (ticketStatus == "processing")
+                {
+                    ticketForUpdate.TicketStatus = TicketStatusType.Processing;
+                    _ticketsRepository.Update(ticketForUpdate);
+                }
+                else
+                {
+                    ticketForUpdate.TicketStatus = TicketStatusType.Done;
+                    _ticketsRepository.Update(ticketForUpdate);
+                }
+            }
+
+
+            return response;
+        }
+
         public StatusModel CreateTicket(Ticket domainModel)
         {
             var response = new StatusModel();
@@ -59,6 +87,16 @@ namespace TicketingSystem.Services
         public Ticket GetById(int id)
         {
             return _ticketsRepository.GetById(id);
+        }
+
+        public List<Ticket> GetTicketsWithAdminFilter(string adminFilterOption)
+        {
+            return _ticketsRepository.GetTicketsWithAdminFilter(adminFilterOption);
+        }
+
+        public void Update(Ticket ticket)
+        {
+            _ticketsRepository.Update(ticket);
         }
     }
 }

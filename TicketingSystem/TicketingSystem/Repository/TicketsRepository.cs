@@ -42,5 +42,27 @@ namespace TicketingSystem.Repository
         {
             return _dbContext.Tickets.Find(id);
         }
+
+        public List<Ticket> GetTicketsWithAdminFilter(string adminFilterOption)
+        {
+            if (adminFilterOption == "pending")
+            {
+                return _dbContext.Tickets.Where(x => x.TicketStatus == TicketStatusType.Pending).ToList();
+            }
+            else if (adminFilterOption == "inProcess")
+            {
+                return _dbContext.Tickets.Where(x => x.TicketStatus == TicketStatusType.Processing).ToList();
+            } else 
+            {
+                return _dbContext.Tickets.Where(x => x.TicketStatus == TicketStatusType.Done).ToList();
+            } 
+
+        }
+
+        public void Update(Ticket ticket)
+        {
+            _dbContext.Tickets.Update(ticket);
+            _dbContext.SaveChanges();
+        }
     }
 }

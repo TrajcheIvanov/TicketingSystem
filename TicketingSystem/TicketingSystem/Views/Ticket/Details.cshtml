@@ -10,26 +10,31 @@
                 <li class="list-group-item"> <b> Status:</b> @Model.TicketStatus</li>
                 <li class="list-group-item"> <b> Description:</b> @Model.Description</li>
                 <li class="list-group-item"><p> <b>Date created:</b> @Model.DateCreated</p></li>
+                
+                    <li class="list-group-item">
 
-                @if (@Model.TicketStatus != TicketStatusType.Done)
-                 {
-                    <li class="list-group-item"><b>Change status to:</b> 
+                        @if (!User.HasClaim("IsAdmin", "True") && @Model.TicketStatus != TicketStatusType.Done || (User.HasClaim("IsAdmin", "True")))
+                         {
+                            <b>Change status to:</b> 
+                         }
 
 
                         @if (User.HasClaim("IsAdmin", "True") && @Model.TicketStatus != TicketStatusType.Processing)
-                        {
+                         {
                             <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="processing" method="post" class="m-2">
                                 <input type="text" name="ticketId" value="@Model.Id"  hidden/>
                                 <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure?')">Processing</button>
                             </form>
-                        }
+                         }
 
-                             <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="done" method="post" class="m-2">
-                                <input type="text" name="ticketId" value="@Model.Id"  hidden/>
-                                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure?')">Done</button>
+                        @if (@Model.TicketStatus != TicketStatusType.Done)
+                         {
+                            <form asp-controller="Ticket" asp-action="ChangeStatus" asp-route-ticketStatus="done" method="post" class="m-2">
+                                 <input type="text" name="ticketId" value="@Model.Id" hidden />
+                                 <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure?')">Done</button>
                             </form>
+                         } 
                     </li>
-                 }
             </ul>
         </div>
     </div>

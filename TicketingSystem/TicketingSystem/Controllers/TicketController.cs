@@ -19,14 +19,23 @@ namespace TicketingSystem.Controllers
         }
 
         [Authorize]
-        public IActionResult Overview()
+        public IActionResult Overview(string adminFilterOption)
         {
 
             if (bool.Parse(User.FindFirst("IsAdmin").Value))
             {
-                var tickets = _ticketsService.GetAll();
-                var viewTickets = tickets.Select(x => x.ToOverviewModel()).ToList();
-                return View(viewTickets);
+                if (adminFilterOption == null)
+                {
+                    var tickets = _ticketsService.GetAll();
+                    var viewTickets = tickets.Select(x => x.ToOverviewModel()).ToList();
+                    return View(viewTickets);
+                }
+                else
+                {
+                    var tickets = _ticketsService.GetTicketsWithAdminFilter(adminFilterOption);
+                    var viewTickets = tickets.Select(x => x.ToOverviewModel()).ToList();
+                    return View(viewTickets);
+                }
             }
             else
             {
@@ -74,11 +83,13 @@ namespace TicketingSystem.Controllers
         {
             if (ticketStatus == "processing")
             {
-
+                var response = _ticketsService.ChangeStatus(ticketStatus, ticketId);
                 return RedirectToAction("Details", "Ticket", new { id = ticketId } );
+                
             }
             else
             {
+                var response =_ticketsService.ChangeStatus(ticketStatus, ticketId);
                 return RedirectToAction("Details", "Ticket" , new { id = ticketId });
             }
 

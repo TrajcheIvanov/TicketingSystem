@@ -14,5 +14,7 @@ namespace TicketingSystem.Repository.Interfaces
         void Add(Ticket domainModel);
         Ticket GetById(int id);
         void Delete(Ticket ticket);
+        void Update(Ticket ticket);
+        List<Ticket> GetTicketsWithAdminFilter(string adminFilterOption);
     }
 }

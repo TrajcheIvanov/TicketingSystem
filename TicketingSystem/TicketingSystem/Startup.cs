@@ -30,7 +30,8 @@ namespace TicketingSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TicketingSystemDbContext>(
-                x=> x.UseSqlServer(Configuration.GetConnectionString("TicketingSystem"))
+                x=> 
+                x.UseSqlServer(Configuration.GetConnectionString("TicketingSystem"))
                 );
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
